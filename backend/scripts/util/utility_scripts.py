@@ -19,7 +19,6 @@ def configure_part(config):
     return part
 
 def get_pitches(config):
-    print("get_pitches")
     octave_one = str(config.octave_one)
     octave_two = str(config.octave_two)
     key_of = config.key

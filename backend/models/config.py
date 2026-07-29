@@ -14,3 +14,5 @@ class Config:
     rhythm: RhythmType
     octave_one: int
     octave_two: int
+    include_seventh: bool
+    include_octave: bool

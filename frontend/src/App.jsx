@@ -19,12 +19,14 @@ function App() {
     key: "C",
     rhythm: "Quarter",
     octaveOne: 3,
-    octaveTwo: 4
+    octaveTwo: 4,
+    includeOctave: false,
+    includeSeventh: false
   });
 
   const osmdRef = useRef(null)
   useEffect(() => {
-    const osmdRef = new OpenSheetMusicDisplay(containerRef.current, {
+    osmdRef.current = new OpenSheetMusicDisplay(containerRef.current, {
       autoResize: true,
     });
   }, []);
@@ -43,7 +45,9 @@ function App() {
           exercise_size: config.exerciseSize,
           rhythm: config.rhythm,
           octave_one: config.octaveOne,
-          octave_two: config.octaveTwo
+          octave_two: config.octaveTwo,
+          include_seventh: config.includeSeventh,
+          include_octave: config.includeOctave
         }),
       },
     )
@@ -63,18 +67,47 @@ function App() {
               <option value="Rows">Rows</option>
               <option value="Skips">Skips</option>
               <option value="Intervals">Intervals</option>
+              <option value="Diatonic Chords">Diatonic Chords</option>
             </select>
           </div>
-          <div className='form-row'>
+
+          {config.exerciseType !== "Diatonic Chords" && (<div className='form-row'>
             <label>Size of {config.exerciseType}: </label>
             <input type="number" value={config.exerciseSize} onChange={(e) => setConfig({...config, exerciseSize: e.target.valueAsNumber})}></input>
-          </div>
+          </div>)}
+
+          {config.exerciseType === "Diatonic Chords" && (<div className='form-row'>
+            <label>Include 7th notes </label>
+            <input
+              type="checkbox"
+              checked={config.includeSeventh}
+              onChange={(e) =>
+                setConfig({
+                  ...config,
+                  includeSeventh: e.target.checked,
+                })
+              }
+            />
+            <label>Include Octave </label>
+            <input
+              type="checkbox"
+              checked={config.includeOctave}
+              onChange={(e) =>
+                setConfig({
+                  ...config,
+                  includeOctave: e.target.checked,
+                })
+              }
+            />
+          </div>)}
+
           <div className="form-row">
             <label>Key: </label>
             <select value={config.key} onChange={(e) => setConfig({...config, key: e.target.value})}>
               {keys.map((key) => (<option key={key} value={key}>{key}</option>))}
             </select>
           </div>
+
           <div className='form-row'>
             <label>Mode: </label>
             <select
@@ -105,11 +138,17 @@ function App() {
             </select>
           </div>
           <div className='form-row'>
-            <label>Include note names? </label>
-            <select value={config.includeNoteNames} onChange={(e) => setConfig({...config, includeNoteNames: e.target.value === 'true'})}>
-              <option value="true">Include note names</option>
-              <option value="false">Do not include note names</option>
-            </select>
+            <label>Include note names </label>
+            <input
+              type="checkbox"
+              checked={config.includeNoteNames}
+              onChange={(e) =>
+                setConfig({
+                  ...config,
+                  includeNoteNames: e.target.checked,
+                })
+              }
+            />
           </div>
           <div className='form-row'>
             <label>Octave Range: <span title="If high to low, it will create a descending exercise, otherwise it will create an ascending exercise">ⓘ</span></label>

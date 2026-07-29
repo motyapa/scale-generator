@@ -20,18 +20,23 @@ def create_skips(config):
         create_note_and_append_to_stream(curr_pitch, include_note_as_lyric, part, duration)
         create_note_and_append_to_stream(next_pitch, include_note_as_lyric, part, duration)
 
-    if config.mode == 'Major':
-        if is_descending:
-            final_note = pitches[-1].transpose("M-2")
-        else:
-            final_note = pitches[-1].transpose('m2')
-    else:
-        if is_descending:
-            final_note = pitches[-1].transpose('M-2')
-        else:
-            final_note = pitches[-1].transpose('M2')
+    starting_note = pitches[-1]
+    final_note = find_final_note(config.mode, is_descending, starting_note)
 
     create_note_and_append_to_stream(final_note, include_note_as_lyric, part, duration)
 
     part.makeMeasures(inPlace=True)
     return part
+
+def find_final_note(mode, is_descending, starting_note):
+    if mode == 'Major':
+        if is_descending:
+            final_note = starting_note.transpose("M-2")
+        else:
+            final_note = starting_note.transpose('m2')
+    else:
+        if is_descending:
+            final_note = starting_note.transpose('M-2')
+        else:
+            final_note = starting_note.transpose('M2')
+    return final_note
