@@ -1,8 +1,8 @@
 from music21 import *
 from music21.duration import Duration
 
-from backend.enums.mode_enums import ModeType
-from backend.scripts.util.constants import MAJOR, MINOR, PERFECT_EIGHT_DOWN, PERFECT_EIGHT_UP, FOUR_FOUR_SIGNATURE
+from enums.mode_enums import ModeType
+from scripts.util.constants import MAJOR, MINOR, PERFECT_EIGHT_DOWN, PERFECT_EIGHT_UP, FOUR_FOUR_SIGNATURE
 
 
 def create_note_and_append_to_stream(note_pitch, include_name_as_lyric, note_stream, note_duration):

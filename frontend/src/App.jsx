@@ -32,9 +32,8 @@ function App() {
   }, []);
 
   async function generateExercise(config) {
-    console.log("got request")
     const response = await fetch(
-      "https://scale-generator-alpha.vercel.app/generate-exercise",
+      "http://localhost:8000/generate-exercise",
       {
         method: "POST",
         headers: {"Content-Type": "application/json"},

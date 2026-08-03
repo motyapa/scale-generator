@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from backend.enums.mode_enums import ModeType
-from backend.enums.rhythm_enums import RhythmType
-from backend.enums.type_enums import ExerciseType
+from enums.mode_enums import ModeType
+from enums.rhythm_enums import RhythmType
+from enums.type_enums import ExerciseType
 
 
 @dataclass

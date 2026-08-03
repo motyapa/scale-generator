@@ -1,5 +1,5 @@
-from backend.scripts.util.constants import rhythm_dict
-from backend.scripts.util.utility_scripts import *
+from scripts.util.constants import rhythm_dict
+from scripts.util.utility_scripts import *
 
 def create_rows(config):
     include_note_as_lyric = config.include_note_as_lyric

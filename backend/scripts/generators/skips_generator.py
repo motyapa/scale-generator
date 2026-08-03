@@ -1,8 +1,6 @@
-from typing_inspection.typing_objects import is_deprecated
-
-from backend.scripts.util.constants import rhythm_dict, MAJOR, MAJOR_TWO_DOWN, MINOR_TWO_UP, MAJOR_TWO_UP
-from backend.scripts.util.utility_scripts import create_note_and_append_to_stream, get_pitches, get_next_pitch
-from backend.scripts.util.utility_scripts import configure_part
+from scripts.util.constants import rhythm_dict, MAJOR, MAJOR_TWO_DOWN, MINOR_TWO_UP, MAJOR_TWO_UP
+from scripts.util.utility_scripts import create_note_and_append_to_stream, get_pitches, get_next_pitch
+from scripts.util.utility_scripts import configure_part
 
 def create_skips(config):
     include_note_as_lyric = config.include_note_as_lyric

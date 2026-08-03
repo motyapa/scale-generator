@@ -4,8 +4,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 
-from backend.models.config import Config
-from backend.scripts.routers.exercise_router import route_exercise
+from models.config import Config
+from scripts.routers.exercise_router import route_exercise
 
 
 app = FastAPI()

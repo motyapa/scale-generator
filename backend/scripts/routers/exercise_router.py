@@ -1,6 +1,6 @@
-from backend.models.config import Config
-from backend.enums.type_enums import ExerciseType
-from backend.scripts.generators import skips_generator, rows_generator, intervals_generator, chords_generator
+from models.config import Config
+from enums.type_enums import ExerciseType
+from scripts.generators import skips_generator, rows_generator, intervals_generator, chords_generator
 
 
 def route_exercise(config: Config):

@@ -1,4 +1,4 @@
-from backend.enums.rhythm_enums import RhythmType
+from enums.rhythm_enums import RhythmType
 
 rhythm_dict = {
     RhythmType.WHOLE: 4,
