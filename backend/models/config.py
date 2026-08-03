@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+from backend.enums.mode_enums import ModeType
 from backend.enums.rhythm_enums import RhythmType
 from backend.enums.type_enums import ExerciseType
 
@@ -8,7 +9,7 @@ from backend.enums.type_enums import ExerciseType
 class Config:
     type: ExerciseType
     key: str
-    mode: str
+    mode: ModeType
     include_note_as_lyric: bool
     exercise_size: int
     rhythm: RhythmType

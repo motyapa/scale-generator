@@ -1,7 +1,8 @@
 from music21 import *
 from music21.duration import Duration
 
-from backend.enums.rhythm_enums import RhythmType
+from backend.enums.mode_enums import ModeType
+from backend.scripts.util.constants import MAJOR, MINOR, PERFECT_EIGHT_DOWN, PERFECT_EIGHT_UP, FOUR_FOUR_SIGNATURE
 
 
 def create_note_and_append_to_stream(note_pitch, include_name_as_lyric, note_stream, note_duration):
@@ -15,37 +16,51 @@ def configure_part(config):
     part.partName = " "
     music_key = get_key(config)
     part.keySignature = music_key
-    part.append(meter.TimeSignature('4/4'))
+    part.append(meter.TimeSignature(FOUR_FOUR_SIGNATURE))
     return part
 
 def get_pitches(config):
     octave_one = str(config.octave_one)
     octave_two = str(config.octave_two)
-    key_of = config.key
-    music_key = get_key(config)
-    pitches = music_key.getPitches(key_of + octave_one, key_of + octave_two)
-    return pitches
+
+    scale_obj = get_scale(config)
+
+    return scale_obj.getPitches(
+        config.key + octave_one,
+        config.key + octave_two
+    )
+
+def get_scale(config):
+    match config.mode:
+        case ModeType.MAJOR: return scale.MajorScale(config.key)
+        case ModeType.MINOR: return scale.MinorScale(config.key)
+        case ModeType.MAJOR_PENTATONIC:
+            major = scale.MajorScale(config.key)
+            notes = major.getPitches(config.key + "4", config.key + "5")
+            return scale.ConcreteScale(
+                config.key, [notes[0], notes[1], notes[2], notes[4], notes[5]]
+            )
+        case ModeType.MINOR_PENTATONIC:
+            minor = scale.MinorScale(config.key)
+            notes = minor.getPitches(config.key + "4", config.key + "5")
+            return scale.ConcreteScale(
+                config.key, [notes[0], notes[2], notes[3], notes[4], notes[6]]
+            )
+    return scale.MajorScale("C")
 
 def get_key(config):
-    key_of = config.key
-    mode = config.mode
-    return key.Key(key_of, mode)
+    if MAJOR in config.mode.value:
+        mode = MAJOR
+    else:
+        mode = MINOR
+    return key.Key(config.key, mode)
 
 def get_next_pitch(next_index, pitches, is_descending):
     pitches_length = len(pitches)
     if next_index < pitches_length:
         next_pitch = pitches[next_index]
     elif is_descending:
-        next_pitch = pitches[next_index - 7].transpose('P-8')
+        next_pitch = pitches[next_index - 7].transpose(PERFECT_EIGHT_DOWN)
     else:
-        next_pitch = pitches[next_index - 7].transpose('P8')
+        next_pitch = pitches[next_index - 7].transpose(PERFECT_EIGHT_UP)
     return next_pitch
-
-rhythm_dict = {
-    RhythmType.WHOLE: 4,
-    RhythmType.HALF: 2,
-    RhythmType.QUARTER: 1,
-    RhythmType.EIGHTH: 0.5,
-    RhythmType.SIXTEENTH: 0.25,
-    RhythmType.TRIPLET: 1/3,
-}

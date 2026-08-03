@@ -1,6 +1,5 @@
-from backend.scripts.util.utility_scripts import create_note_and_append_to_stream, get_pitches, rhythm_dict, \
-    get_next_pitch
-from backend.scripts.util.utility_scripts import configure_part
+from backend.scripts.util.constants import rhythm_dict
+from backend.scripts.util.utility_scripts import *
 
 def create_rows(config):
     include_note_as_lyric = config.include_note_as_lyric
@@ -8,7 +7,7 @@ def create_rows(config):
     pitches = get_pitches(config)[:-1]
     pitches_length = len(pitches)
     row_length = config.exercise_size
-    duration = rhythm_dict[config.rhythm]
+    rhythm = rhythm_dict[config.rhythm]
 
     is_descending = config.octave_one > config.octave_two
 
@@ -16,7 +15,7 @@ def create_rows(config):
         for j in range(row_length):
             next_index = i + j
             next_pitch = get_next_pitch(next_index, pitches, is_descending)
-            create_note_and_append_to_stream(next_pitch, include_note_as_lyric, part, duration)
+            create_note_and_append_to_stream(next_pitch, include_note_as_lyric, part, rhythm)
 
     part.makeMeasures(inPlace=True)
     return part

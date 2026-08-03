@@ -1,4 +1,5 @@
-from backend.scripts.util.utility_scripts import create_note_and_append_to_stream, get_pitches, rhythm_dict
+from backend.scripts.util.constants import rhythm_dict
+from backend.scripts.util.utility_scripts import create_note_and_append_to_stream, get_pitches
 from backend.scripts.util.utility_scripts import configure_part
 
 def create_intervals(config):

@@ -1,4 +1,5 @@
-from backend.scripts.util.utility_scripts import create_note_and_append_to_stream, get_pitches, rhythm_dict, \
+from backend.scripts.util.constants import rhythm_dict, PERFECT_EIGHT_DOWN, PERFECT_EIGHT_UP
+from backend.scripts.util.utility_scripts import create_note_and_append_to_stream, get_pitches, \
     get_next_pitch
 from backend.scripts.util.utility_scripts import configure_part
 
@@ -32,8 +33,8 @@ def create_chords(config):
             create_note_and_append_to_stream(octave, include_note_as_lyric, part, duration)
 
     if not include_octave:
-        if is_descending: final_note = pitches[-1].transpose("P-8")
-        else: final_note = pitches[-1].transpose("P8")
+        if is_descending: final_note = pitches[-1].transpose(PERFECT_EIGHT_DOWN)
+        else: final_note = pitches[-1].transpose(PERFECT_EIGHT_UP)
         create_note_and_append_to_stream(final_note, include_note_as_lyric, part, duration)
 
     part.makeMeasures(inPlace=True)

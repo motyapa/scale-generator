@@ -123,7 +123,9 @@ function App() {
               }}
           >
               <option value="Major">Major</option>
+              <option value="Major Pentatonic">Major Pentatonic</option>
               <option value="Minor">Minor</option>
+              <option value="Minor Pentatonic">Minor Pentatonic</option>
             </select>
           </div>
           <div className="form-row">
