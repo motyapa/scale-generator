@@ -22,6 +22,7 @@ app.add_middleware(
 
 @app.post("/generate-exercise")
 def generate_exercise(request: Config):
+    print("generating exercise")
     part_stream = route_exercise(request)
 
     part_stream.metadata = metadata.Metadata()
