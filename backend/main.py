@@ -10,10 +10,15 @@ from scripts.routers.exercise_router import route_exercise
 
 app = FastAPI()
 
+origins = [
+    "http://localhost:5173",
+    "https://scale-generator-frontend.onrender.com",
+]
+
 # Allow React frontend to talk to backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
