@@ -1,3 +1,4 @@
+from enums.mode_enums import ModeType
 from scripts.util.constants import rhythm_dict, MAJOR, MAJOR_TWO_DOWN, MINOR_TWO_UP, MAJOR_TWO_UP
 from scripts.util.utility_scripts import create_note_and_append_to_stream, get_pitches, get_next_pitch
 from scripts.util.utility_scripts import configure_part
@@ -27,14 +28,10 @@ def create_skips(config):
     return part
 
 def find_final_note(mode, is_descending, starting_note):
-    if mode == MAJOR:
-        if is_descending:
-            final_note = starting_note.transpose(MAJOR_TWO_DOWN)
-        else:
-            final_note = starting_note.transpose(MINOR_TWO_UP)
+    if is_descending:
+        final_note = starting_note.transpose(MAJOR_TWO_DOWN)
+    elif mode == ModeType.MAJOR:
+        final_note = starting_note.transpose(MINOR_TWO_UP)
     else:
-        if is_descending:
-            final_note = starting_note.transpose(MAJOR_TWO_DOWN)
-        else:
-            final_note = starting_note.transpose(MAJOR_TWO_UP)
+        final_note = starting_note.transpose(MAJOR_TWO_UP)
     return final_note
