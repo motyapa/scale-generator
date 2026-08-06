@@ -64,3 +64,11 @@ def get_next_pitch(next_index, pitches, is_descending):
     else:
         next_pitch = pitches[next_index - 7].transpose(PERFECT_EIGHT_UP)
     return next_pitch
+
+def fix_last_measure_duration(part):
+    for measure in part.getElementsByClass("Measure"):
+        remaining = measure.barDuration.quarterLength - measure.duration.quarterLength
+
+        if remaining > 0:
+            last_note = measure.notes[-1]
+            last_note.duration.quarterLength += remaining

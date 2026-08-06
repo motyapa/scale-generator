@@ -1,6 +1,6 @@
 from scripts.util.constants import rhythm_dict, PERFECT_EIGHT_DOWN, PERFECT_EIGHT_UP
 from scripts.util.utility_scripts import create_note_and_append_to_stream, get_pitches, \
-    get_next_pitch
+    get_next_pitch, fix_last_measure_duration
 from scripts.util.utility_scripts import configure_part
 
 def create_chords(config):
@@ -38,4 +38,5 @@ def create_chords(config):
         create_note_and_append_to_stream(final_note, include_note_as_lyric, part, duration)
 
     part.makeMeasures(inPlace=True)
+    fix_last_measure_duration(part)
     return part

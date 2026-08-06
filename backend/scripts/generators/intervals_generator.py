@@ -1,5 +1,5 @@
 from scripts.util.constants import rhythm_dict
-from scripts.util.utility_scripts import create_note_and_append_to_stream, get_pitches
+from scripts.util.utility_scripts import create_note_and_append_to_stream, get_pitches, fix_last_measure_duration
 from scripts.util.utility_scripts import configure_part
 
 def create_intervals(config):
@@ -14,4 +14,5 @@ def create_intervals(config):
         create_note_and_append_to_stream(curr_pitch, include_note_as_lyric, part, duration)
 
     part.makeMeasures(inPlace=True)
+    fix_last_measure_duration(part)
     return part

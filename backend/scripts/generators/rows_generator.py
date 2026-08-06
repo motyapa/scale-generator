@@ -18,4 +18,5 @@ def create_rows(config):
             create_note_and_append_to_stream(next_pitch, include_note_as_lyric, part, rhythm)
 
     part.makeMeasures(inPlace=True)
+    fix_last_measure_duration(part)
     return part
