@@ -2,6 +2,8 @@ import {useEffect, useRef, useState} from 'react'
 import './App.css'
 import {OpenSheetMusicDisplay} from "opensheetmusicdisplay";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function App() {
   const majorKeys = ["Ab", "A", "Bb", "B", "Cb", "C", "C#", "Db", "D", "Eb", "E", "F", "F#", "Gb", "G"];
   const minorKeys = ["Ab", "A", "A#", "Bb", "B", "C", "C#", "D", "D#", "Eb", "E", "F", "F#", "G", "G#"];
@@ -33,7 +35,7 @@ function App() {
 
   async function generateExercise(config) {
     const response = await fetch(
-      "http://localhost:8000/generate-exercise",
+      `${API_URL}/generate-exercise`,
       {
         method: "POST",
         headers: {"Content-Type": "application/json"},
