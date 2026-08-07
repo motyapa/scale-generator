@@ -70,6 +70,7 @@ function App() {
               <option value="Skips">Skips</option>
               <option value="Intervals">Intervals</option>
               <option value="Diatonic Chords">Diatonic Chords</option>
+              <option value="Cycles">Cycles</option>
             </select>
           </div>
 

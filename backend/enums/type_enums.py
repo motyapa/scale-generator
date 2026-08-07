@@ -5,3 +5,4 @@ class ExerciseType(Enum):
     INTERVALS = "Intervals"
     ROWS = "Rows"
     DIATONIC_CHORDS = "Diatonic Chords"
+    CYCLES = "Cycles"
