@@ -121,7 +121,7 @@ function App() {
                 setConfig({
                   ...config,
                   modeType: newMode,
-                  key: newMode === "Major" ? (majorKeys.includes(config.key) ? config.key : "C") : (minorKeys.includes(config.key) ? config.key : "A")
+                  key: (newMode === "Major" || newMode === "Major Pentatonic") ? (majorKeys.includes(config.key) ? config.key : "C") : (minorKeys.includes(config.key) ? config.key : "A")
                 })
               }}
           >
