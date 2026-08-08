@@ -14,11 +14,11 @@ def create_cycles(config):
     for i in range(len(pitches)):
         for j in range(cycle_size):
             next_index = i + j
-            next_pitch = get_next_pitch(next_index, pitches, is_descending)
+            next_pitch = get_next_pitch(next_index, pitches, is_descending, config.mode)
             create_note_and_append_to_stream(next_pitch, include_note_as_lyric, part, duration)
         for j in range(cycle_size, -1, -1):
             next_index = i + j
-            next_pitch = get_next_pitch(next_index, pitches, is_descending)
+            next_pitch = get_next_pitch(next_index, pitches, is_descending, config.mode)
             create_note_and_append_to_stream(next_pitch, include_note_as_lyric, part, duration)
 
     part.makeMeasures(inPlace=True)

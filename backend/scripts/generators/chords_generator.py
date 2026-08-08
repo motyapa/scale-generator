@@ -17,19 +17,19 @@ def create_chords(config):
     for i in range(0, pitches_length):
         curr_pitch = pitches[i]
 
-        third = get_next_pitch(i + 2, pitches, is_descending)
-        fifth = get_next_pitch(i + 4, pitches, is_descending)
+        third = get_next_pitch(i + 2, pitches, is_descending, config.mode)
+        fifth = get_next_pitch(i + 4, pitches, is_descending, config.mode)
 
         create_note_and_append_to_stream(curr_pitch, include_note_as_lyric, part, duration)
         create_note_and_append_to_stream(third, include_note_as_lyric, part, duration)
         create_note_and_append_to_stream(fifth, include_note_as_lyric, part, duration)
 
         if include_seventh:
-            seventh = get_next_pitch(i + 6, pitches, is_descending)
+            seventh = get_next_pitch(i + 6, pitches, is_descending, config.mode)
             create_note_and_append_to_stream(seventh, include_note_as_lyric, part, duration)
 
         if include_octave:
-            octave = get_next_pitch(i + 7, pitches, is_descending)
+            octave = get_next_pitch(i + 7, pitches, is_descending, config.mode)
             create_note_and_append_to_stream(octave, include_note_as_lyric, part, duration)
 
     if not include_octave:

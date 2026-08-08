@@ -55,14 +55,18 @@ def get_key(config):
         mode = MINOR
     return key.Key(config.key, mode)
 
-def get_next_pitch(next_index, pitches, is_descending):
+def get_next_pitch(next_index, pitches, is_descending, mode):
+    if mode == ModeType.MINOR_PENTATONIC or mode == ModeType.MAJOR_PENTATONIC:
+        index_transpose = 5
+    else:
+        index_transpose = 7
     pitches_length = len(pitches)
     if next_index < pitches_length:
         next_pitch = pitches[next_index]
     elif is_descending:
-        next_pitch = pitches[next_index - 7].transpose(PERFECT_EIGHT_DOWN)
+        next_pitch = pitches[next_index - index_transpose].transpose(PERFECT_EIGHT_DOWN)
     else:
-        next_pitch = pitches[next_index - 7].transpose(PERFECT_EIGHT_UP)
+        next_pitch = pitches[next_index - index_transpose].transpose(PERFECT_EIGHT_UP)
     return next_pitch
 
 def fix_last_measure_duration(part):

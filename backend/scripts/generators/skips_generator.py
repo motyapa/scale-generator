@@ -15,7 +15,7 @@ def create_skips(config):
 
     for i, curr_pitch in enumerate(pitches):
         next_index = i + interval_of
-        next_pitch = get_next_pitch(next_index, pitches, is_descending)
+        next_pitch = get_next_pitch(next_index, pitches, is_descending, config.mode)
 
         create_note_and_append_to_stream(curr_pitch, include_note_as_lyric, part, duration)
         create_note_and_append_to_stream(next_pitch, include_note_as_lyric, part, duration)

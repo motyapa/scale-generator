@@ -14,7 +14,7 @@ def create_rows(config):
     for i in range(pitches_length - (row_length - 2)):
         for j in range(row_length):
             next_index = i + j
-            next_pitch = get_next_pitch(next_index, pitches, is_descending)
+            next_pitch = get_next_pitch(next_index, pitches, is_descending, config.mode)
             create_note_and_append_to_stream(next_pitch, include_note_as_lyric, part, rhythm)
 
     part.makeMeasures(inPlace=True)
