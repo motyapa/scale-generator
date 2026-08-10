@@ -28,9 +28,6 @@ class ChordGenerator(ExerciseGeneratorInterface):
                 self.create_note(i + INDEX_FOR_OCTAVE, part)
 
         self.add_last_note(part)
-
-        part.makeMeasures(inPlace=True)
-        fix_last_measure_duration(part)
         return part
 
     def create_note(self, index, part):

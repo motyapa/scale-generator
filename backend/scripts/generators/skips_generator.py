@@ -24,9 +24,6 @@ def create_skips(config):
     final_note = find_final_note(config.mode, is_descending, starting_note)
 
     create_note_and_append_to_stream(final_note, include_note_as_lyric, part, duration)
-
-    part.makeMeasures(inPlace=True)
-    fix_last_measure_duration(part)
     return part
 
 def find_final_note(mode, is_descending, starting_note):

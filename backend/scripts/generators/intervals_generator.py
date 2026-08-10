@@ -12,7 +12,4 @@ class IntervalsGenerator(ExerciseGeneratorInterface):
         for i in range(0, len(self.pitches), self.interval_size):
             curr_pitch = self.pitches[i]
             create_note_and_append_to_stream(curr_pitch, self.include_note_as_lyric, part, self.duration)
-
-        part.makeMeasures(inPlace=True)
-        fix_last_measure_duration(part)
         return part
