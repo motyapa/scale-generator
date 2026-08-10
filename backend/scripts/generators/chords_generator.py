@@ -21,12 +21,7 @@ class ChordGenerator(ExerciseGeneratorInterface):
             create_note(i, part, self.pitches, self.is_descending, self.mode, self.include_note_as_lyric, self.duration)
             create_note(i + INDEX_FOR_THIRD, part, self.pitches, self.is_descending, self.mode, self.include_note_as_lyric, self.duration)
             create_note(i + INDEX_FOR_FIFTH, part, self.pitches, self.is_descending, self.mode, self.include_note_as_lyric, self.duration)
-
-            if self.include_seventh:
-                create_note(i + INDEX_FOR_SEVENTH, part, self.pitches, self.is_descending, self.mode, self.include_note_as_lyric, self.duration)
-
-            if self.include_octave:
-                create_note(i + INDEX_FOR_OCTAVE, part, self.pitches, self.is_descending, self.mode, self.include_note_as_lyric, self.duration)
+            self.check_and_add_extra_notes(i, part)
 
         self.add_last_note(part)
         return part
@@ -34,3 +29,10 @@ class ChordGenerator(ExerciseGeneratorInterface):
     def add_last_note(self, part):
         if not self.include_octave:
             create_note(-1, part, self.pitches, self.is_descending, self.mode, self.include_note_as_lyric, self.duration)
+
+    def check_and_add_extra_notes(self, index, part):
+        if self.include_seventh:
+            create_note(index + INDEX_FOR_SEVENTH, part, self.pitches, self.is_descending, self.mode, self.include_note_as_lyric, self.duration)
+
+        if self.include_octave:
+            create_note(index + INDEX_FOR_OCTAVE, part, self.pitches, self.is_descending, self.mode, self.include_note_as_lyric, self.duration)
