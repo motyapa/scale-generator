@@ -1,6 +1,5 @@
 from models.exercise_gen_interface import ExerciseGeneratorInterface
-from scripts.util.constants import rhythm_dict
-from scripts.util.utility_scripts import create_note_and_append_to_stream, get_pitches, fix_last_measure_duration
+from scripts.util.utility_scripts import create_note_and_append_to_stream, fix_last_measure_duration
 from scripts.util.utility_scripts import configure_part
 
 class IntervalsGenerator(ExerciseGeneratorInterface):
