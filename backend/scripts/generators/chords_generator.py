@@ -1,42 +1,50 @@
+
+from models.exercise_gen_interface import ExerciseGeneratorInterface
 from scripts.util.constants import rhythm_dict, PERFECT_EIGHT_DOWN, PERFECT_EIGHT_UP
 from scripts.util.utility_scripts import create_note_and_append_to_stream, get_pitches, \
     get_next_pitch, fix_last_measure_duration
 from scripts.util.utility_scripts import configure_part
 
-def create_chords(config):
-    include_note_as_lyric = config.include_note_as_lyric
-    part = configure_part(config)
-    pitches = get_pitches(config)
-    duration = rhythm_dict[config.rhythm]
-    pitches_length = len(pitches)
-    include_seventh = config.include_seventh
-    include_octave = config.include_octave
+INDEX_FOR_THIRD = 2
+INDEX_FOR_FIFTH = 4
+INDEX_FOR_SEVENTH = 6
+INDEX_FOR_OCTAVE = 7
 
-    is_descending = config.octave_one > config.octave_two
+class ChordGenerator(ExerciseGeneratorInterface):
+    def __init__(self, config):
+        super().__init__(config)
+        self.include_seventh = config.include_seventh
+        self.include_octave = config.include_octave
 
-    for i in range(0, pitches_length):
-        curr_pitch = pitches[i]
+    def generate_exercise(self):
+        part = configure_part(self.config)
+        for i in range(0, len(self.pitches)):
+            self.create_note(i, part)
+            self.create_note(i + INDEX_FOR_THIRD, part)
+            self.create_note(i + INDEX_FOR_FIFTH, part)
 
-        third = get_next_pitch(i + 2, pitches, is_descending, config.mode)
-        fifth = get_next_pitch(i + 4, pitches, is_descending, config.mode)
+            if self.include_seventh:
+                self.create_note(i + INDEX_FOR_SEVENTH, part)
 
-        create_note_and_append_to_stream(curr_pitch, include_note_as_lyric, part, duration)
-        create_note_and_append_to_stream(third, include_note_as_lyric, part, duration)
-        create_note_and_append_to_stream(fifth, include_note_as_lyric, part, duration)
+            if self.include_octave:
+                self.create_note(i + INDEX_FOR_OCTAVE, part)
 
-        if include_seventh:
-            seventh = get_next_pitch(i + 6, pitches, is_descending, config.mode)
-            create_note_and_append_to_stream(seventh, include_note_as_lyric, part, duration)
+        self.add_last_note(part)
 
-        if include_octave:
-            octave = get_next_pitch(i + 7, pitches, is_descending, config.mode)
-            create_note_and_append_to_stream(octave, include_note_as_lyric, part, duration)
+        part.makeMeasures(inPlace=True)
+        fix_last_measure_duration(part)
+        return part
 
-    if not include_octave:
-        if is_descending: final_note = pitches[-1].transpose(PERFECT_EIGHT_DOWN)
-        else: final_note = pitches[-1].transpose(PERFECT_EIGHT_UP)
-        create_note_and_append_to_stream(final_note, include_note_as_lyric, part, duration)
+    def create_note(self, index, part):
+        pitch = get_next_pitch(index, self.pitches, self.is_descending, self.mode)
+        create_note_and_append_to_stream(pitch, self.include_note_as_lyric, part, self.duration)
 
-    part.makeMeasures(inPlace=True)
-    fix_last_measure_duration(part)
-    return part
+    def add_last_note(self, part):
+        if not self.include_octave:
+            if self.is_descending:
+                final_note = self.pitches[-1].transpose(PERFECT_EIGHT_DOWN)
+            else:
+                final_note = self.pitches[-1].transpose(PERFECT_EIGHT_UP)
+            create_note_and_append_to_stream(final_note, self.include_note_as_lyric, part, self.duration)
+
+

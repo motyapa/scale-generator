@@ -1,18 +1,19 @@
+from models.exercise_gen_interface import ExerciseGeneratorInterface
 from scripts.util.constants import rhythm_dict
 from scripts.util.utility_scripts import create_note_and_append_to_stream, get_pitches, fix_last_measure_duration
 from scripts.util.utility_scripts import configure_part
 
-def create_intervals(config):
-    include_note_as_lyric = config.include_note_as_lyric
-    part = configure_part(config)
-    pitches = get_pitches(config)
-    interval_of = config.exercise_size
-    duration = rhythm_dict[config.rhythm]
+class IntervalsGenerator(ExerciseGeneratorInterface):
+    def __init__(self, config):
+        super().__init__(config)
+        self.interval_size = config.exercise_size
 
-    for i in range(0, len(pitches), interval_of):
-        curr_pitch = pitches[i]
-        create_note_and_append_to_stream(curr_pitch, include_note_as_lyric, part, duration)
+    def generate_exercise(self):
+        part = configure_part(self.config)
+        for i in range(0, len(self.pitches), self.interval_size):
+            curr_pitch = self.pitches[i]
+            create_note_and_append_to_stream(curr_pitch, self.include_note_as_lyric, part, self.duration)
 
-    part.makeMeasures(inPlace=True)
-    fix_last_measure_duration(part)
-    return part
+        part.makeMeasures(inPlace=True)
+        fix_last_measure_duration(part)
+        return part
