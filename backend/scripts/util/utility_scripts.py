@@ -2,25 +2,20 @@ from music21 import *
 from music21.duration import Duration
 
 from enums.mode_enums import ModeType
-from scripts.util.constants import MAJOR, MINOR, PERFECT_EIGHT_DOWN, PERFECT_EIGHT_UP, FOUR_FOUR_SIGNATURE
+from models.note_config import NoteConfig
+from scripts.util.constants import MAJOR, MINOR, PERFECT_EIGHT_DOWN, PERFECT_EIGHT_UP, FOUR_FOUR_SIGNATURE, \
+    INDEX_FOR_OCTAVE
 
-def create_note(
-        index,
-        part,
-        pitches,
-        is_descending,
-        mode,
-        include_note_as_lyric,
-        note_duration
-):
-    note_pitch = get_next_pitch(index, pitches, is_descending, mode)
-    create_note_and_append_to_stream(note_pitch, include_note_as_lyric, part, note_duration)
 
-def create_note_and_append_to_stream(note_pitch, include_name_as_lyric, note_stream, note_duration):
+def create_note(next_index, note_config: NoteConfig):
+    note_pitch = get_next_pitch(next_index, note_config)
+    create_note_and_append_to_stream(note_pitch, note_config)
+
+def create_note_and_append_to_stream(note_pitch, note_config):
     created_note = note.Note(note_pitch)
-    created_note.duration = Duration(note_duration)
-    if include_name_as_lyric: created_note.lyric = created_note.name.replace("-", "b")
-    note_stream.append(created_note)
+    created_note.duration = Duration(note_config.note_duration)
+    if note_config.include_name_as_lyric: created_note.lyric = created_note.name.replace("-", "b")
+    note_config.part.append(created_note)
 
 def configure_part(config):
     part = stream.Part()
@@ -66,18 +61,18 @@ def get_key(config):
         mode = MINOR
     return key.Key(config.key, mode)
 
-def get_next_pitch(next_index, pitches, is_descending, mode):
-    if mode == ModeType.MINOR_PENTATONIC or mode == ModeType.MAJOR_PENTATONIC:
+def get_next_pitch(next_index, note_config: NoteConfig):
+    if note_config.mode == ModeType.MINOR_PENTATONIC or note_config.mode == ModeType.MAJOR_PENTATONIC:
         index_transpose = 5
     else:
         index_transpose = 7
-    pitches_length = len(pitches)
+    pitches_length = len(note_config.pitches)
     if next_index < pitches_length:
-        next_pitch = pitches[next_index]
-    elif is_descending:
-        next_pitch = pitches[next_index - index_transpose].transpose(PERFECT_EIGHT_DOWN)
+        next_pitch = note_config.pitches[next_index]
+    elif note_config.is_descending:
+        next_pitch = note_config.pitches[next_index - index_transpose].transpose(PERFECT_EIGHT_DOWN)
     else:
-        next_pitch = pitches[next_index - index_transpose].transpose(PERFECT_EIGHT_UP)
+        next_pitch = note_config.pitches[next_index - index_transpose].transpose(PERFECT_EIGHT_UP)
     return next_pitch
 
 def fix_last_measure_duration(part):
@@ -87,3 +82,6 @@ def fix_last_measure_duration(part):
         if remaining > 0:
             last_note = measure.notes[-1]
             last_note.duration.quarterLength += remaining
+
+def add_last_note(note_config):
+    create_note(len(note_config.pitches) - 1 + INDEX_FOR_OCTAVE, note_config)
