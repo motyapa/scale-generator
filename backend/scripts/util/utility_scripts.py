@@ -4,6 +4,17 @@ from music21.duration import Duration
 from enums.mode_enums import ModeType
 from scripts.util.constants import MAJOR, MINOR, PERFECT_EIGHT_DOWN, PERFECT_EIGHT_UP, FOUR_FOUR_SIGNATURE
 
+def create_note(
+        index,
+        part,
+        pitches,
+        is_descending,
+        mode,
+        include_note_as_lyric,
+        note_duration
+):
+    note_pitch = get_next_pitch(index, pitches, is_descending, mode)
+    create_note_and_append_to_stream(note_pitch, include_note_as_lyric, part, note_duration)
 
 def create_note_and_append_to_stream(note_pitch, include_name_as_lyric, note_stream, note_duration):
     created_note = note.Note(note_pitch)

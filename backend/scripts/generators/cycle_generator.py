@@ -1,5 +1,6 @@
 from models.exercise_gen_interface import ExerciseGeneratorInterface
-from scripts.util.utility_scripts import create_note_and_append_to_stream, fix_last_measure_duration, get_next_pitch
+from scripts.util.utility_scripts import create_note_and_append_to_stream, fix_last_measure_duration, get_next_pitch, \
+    create_note
 from scripts.util.utility_scripts import configure_part
 
 class CycleGenerator(ExerciseGeneratorInterface):
@@ -11,11 +12,7 @@ class CycleGenerator(ExerciseGeneratorInterface):
         part = configure_part(self.config)
         for i in range(len(self.pitches)):
             for j in range(self.cycle_size):
-                next_index = i + j
-                next_pitch = get_next_pitch(next_index, self.pitches, self.is_descending, self.mode)
-                create_note_and_append_to_stream(next_pitch, self.include_note_as_lyric, part, self.duration)
+                create_note(i + j, part, self.pitches, self.is_descending, self.mode, self.include_note_as_lyric, self.duration)
             for j in range(self.cycle_size, -1, -1):
-                next_index = i + j
-                next_pitch = get_next_pitch(next_index, self.pitches, self.is_descending, self.mode)
-                create_note_and_append_to_stream(next_pitch, self.include_note_as_lyric, part, self.duration)
+                create_note(i + j, part, self.pitches, self.is_descending, self.mode, self.include_note_as_lyric, self.duration)
         return part
